@@ -30,16 +30,10 @@ def calc_L(m, x, params):
 
 def get_L_values(m, x, Z):
     factor = (Z - Z1) / (Z2 - Z1)
-    L_min_Z1_val = calc_L(m, x, L_min_Z1)
-    L_min_Z2_val = calc_L(m, x, L_min_Z2)
-    L_max_Z1_val = calc_L(m, x, L_max_Z1)
-    L_max_Z2_val = calc_L(m, x, L_max_Z2)
-    L_he_Z1_val  = calc_L(m, 0, L_max_Z1)
-    L_he_Z2_val  = calc_L(m, 0, L_max_Z2)
 
-    L_min = L_min_Z1_val + factor * (L_min_Z2_val - L_min_Z1_val)
-    L_max = L_max_Z1_val + factor * (L_max_Z2_val - L_max_Z1_val)
-    L_he  = L_he_Z1_val  + factor * (L_he_Z2_val  - L_he_Z1_val)
+    L_min = calc_L(m, x, L_min_Z1) + factor * (calc_L(m, x, L_min_Z2) - calc_L(m, x, L_min_Z1))
+    L_max = calc_L(m, x, L_max_Z1) + factor * (calc_L(m, x, L_max_Z2) - calc_L(m, x, L_max_Z1))
+    L_he  = calc_L(m, 0, L_max_Z1) + factor * (calc_L(m, 0, L_max_Z2) - calc_L(m, 0, L_max_Z1))
     return L_min, L_max, L_he
 
 def get_slope(m, x, Z):
