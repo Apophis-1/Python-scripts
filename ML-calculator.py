@@ -6,6 +6,8 @@
 # Based on the selected option, the user will be asked to input either the stellar mass or luminosity, along with the H and Z abundances (as mass fractions).
 # The script will output the minimum, maximum, and pure-helium values of mass or luminosity, depending on the chosen calculator.
 # Warnings will be displayed if any of the input or output values exceed the tested grid parameter ranges.
+# The synthetic model grid was run for Z = 0.008 and 0.004, roughly corresponding to LMC-like (0.4Zsun) and SMC-like (0.2Zsun) metallicity where Zsun = 0.02.
+# For all values of input Z other than Z = 0.008 and 0.004, interpolation or extrapolation is performed.
 
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
