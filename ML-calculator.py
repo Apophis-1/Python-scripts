@@ -15,7 +15,7 @@
 # inputs fall outside the grid’s tested parameter range, a general warning is shown. If the inputs 
 # are significantly beyond the grid range such that the minimum or maximum value of M or L is not 
 # truly a minimum or maximum, then a warning is issued indicating that the ML fits may be 
-# unreliable. 
+# unreliable. If a calculation fails, espcially in the mass calculator, an error is issued.
 
 # The model grid was computed for Z = 0.008 and Z = 0.004, which approximately correspond
 # to LMC-like (0.4 Zsun) and SMC-like (0.2 Zsun) metallicities, where Zsun = 0.02. For 
@@ -128,9 +128,9 @@ def main():
             print("\nWarning(s):\n One or more inputs are well beyond the grid range. \n The fit calculations may not be reliable.")
             return
         if M < 1 or M > 18:
-            warnings.append("Input mass is outside the grid range for L_max (1 ≤ M ≤ 18)")
+            warnings.append("Input mass is outside the grid range for L_max (1 ≤ M/Msun ≤ 18)")
         if M < 1 or M > 40:
-            warnings.append("Input mass is outside the grid range for L_min and L_He (1 ≤ M ≤ 40)")
+            warnings.append("Input mass is outside the grid range for L_min and L_He (1 ≤ M/Msun ≤ 40)")
 
         if X > 0.7:
             warnings.append("Input X is outside grid range (0 ≤ X ≤ 0.7)")
@@ -160,7 +160,7 @@ def main():
         if X == 0:
             m_he = root_find_mass(L, 0, 0.01, 100, "L_max", Z)
             if m_he is not None and (m_he < 1 or m_he > 40):
-                warnings.append("Output M_He is outside grid range (1 ≤ M ≤ 40)")
+                warnings.append("Output M_He is outside grid range (1 ≤ M/Msun ≤ 40)")
             print(f"  M_He:  {m_he:.5f}, slope: inf")
         else:
             m_max = root_find_mass(L, X, 0.01, 100, "L_min", Z)
@@ -180,11 +180,11 @@ def main():
             return
 
         if m_min is not None and (m_min < 1 or m_min > 18):
-            warnings.append("Output M_min is outside grid range (1 ≤ M ≤ 18)")
+            warnings.append("Output M_min is outside grid range (1 ≤ M/Msun ≤ 18)")
         if m_max is not None and (m_max < 1 or m_max > 40):
-            warnings.append("Output M_max is outside grid range (1 ≤ M ≤ 40)")
+            warnings.append("Output M_max is outside grid range (1 ≤ M/Msun ≤ 40)")
         if m_he is not None and (m_he < 1 or m_he > 40):
-            warnings.append("Output M_He is outside grid range (1 ≤ M ≤ 40)")
+            warnings.append("Output M_He is outside grid range (1 ≤ M/Msun ≤ 40)")
         if X > 0.7:
             warnings.append("Input X is outside grid range (0 ≤ X ≤ 0.7)")
         if Z != Z1 and Z != Z2:
