@@ -124,14 +124,14 @@ def main():
             print(f"  log(L_max/Lsun): {L_max:.5f}, slope: {s:.2f}")
             print(f"  log(L_He/Lsun):  {L_he:.5f}, slope: inf")
 
+        if L_min > L_max or L_min > L_he or L_max < L_he:
+            print("\nWarning(s):\n One or more inputs are well beyond the grid range. \n The fit calculations may not be reliable.")
+            return
         if M < 1 or M > 18:
             warnings.append("Input mass is outside the grid range for L_max (1 ≤ M ≤ 18)")
         if M < 1 or M > 40:
             warnings.append("Input mass is outside the grid range for L_min and L_He (1 ≤ M ≤ 40)")
-        if L_min > L_max or L_min > L_he:
-            warnings.append("Output L_min might be unreliable — inputs are far outside the grid range")
-        if L_max < L_min or L_max < L_he:
-            warnings.append("Output L_max might be unreliable — inputs are far outside the grid range")
+
         if X > 0.7:
             warnings.append("Input X is outside grid range (0 ≤ X ≤ 0.7)")
         if Z != Z1 and Z != Z2:
@@ -167,20 +167,24 @@ def main():
             m_min = root_find_mass(L, X, 0.01, 50, "L_max", Z)
             m_he = root_find_mass(L, 0, 0.01, 100, "L_max", Z)
             s = get_slope(m_min, X, Z) if m_min is not None else None
-            print(f"  M_min/Msun: {m_min:.5f}, slope: {s:.2f}")
-            print(f"  M_max/Msun: {m_max:.5f}, slope: 0")
-            print(f"  M_He/Msun:  {m_he:.5f}, slope: inf")
-            
+            if None in (m_min, m_max, m_he):
+                print("\nError: \n One or more inputs are well beyond the grid range. \n The fit calculations failed.")
+                return
+            else:
+                print(f"  M_min/Msun: {m_min:.5f}, slope: {s:.2f}")
+                print(f"  M_max/Msun: {m_max:.5f}, slope: 0")
+                print(f"  M_He/Msun:  {m_he:.5f}, slope: inf")
+
+        if m_min is not None and (m_min > m_max or m_min > m_he or m_max < m_he):
+            print("\nWarning(s):\n One or more inputs are well beyond the grid range. \n The fit calculations may not be reliable.")
+            return
+
         if m_min is not None and (m_min < 1 or m_min > 18):
             warnings.append("Output M_min is outside grid range (1 ≤ M ≤ 18)")
         if m_max is not None and (m_max < 1 or m_max > 40):
             warnings.append("Output M_max is outside grid range (1 ≤ M ≤ 40)")
         if m_he is not None and (m_he < 1 or m_he > 40):
             warnings.append("Output M_He is outside grid range (1 ≤ M ≤ 40)")
-        if m_min is not None and (m_min > m_max or m_min > m_he):
-            warnings.append("Output M_min might be unreliable — inputs are far outside the grid range")
-        if m_max is not None and (m_max < m_min or m_max < m_he):
-            warnings.append("Output M_max might be unreliable — inputs are far outside the grid range")
         if X > 0.7:
             warnings.append("Input X is outside grid range (0 ≤ X ≤ 0.7)")
         if Z != Z1 and Z != Z2:
