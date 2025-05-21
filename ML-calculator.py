@@ -22,6 +22,8 @@
 # any Z value other than 0.008 or 0.004, interpolation or extrapolation is performed, and a 
 # corresponding warning is provided.
 
+# Author: Gautham Sabhahit
+
 
 
 
